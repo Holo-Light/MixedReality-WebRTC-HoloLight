@@ -10,6 +10,8 @@
 #include "peer_connection.h"
 #include "rtc_base/refcountedobject.h"
 #include "utils.h"
+#include "VideoEncoder.h"
+#include "VideoDecoder.h"
 
 #include <exception>
 
@@ -254,16 +256,16 @@ mrsResult GlobalFactory::InitializeImplNoLock() {
                              signaling_thread_.get());
   signaling_thread_->Start();
 
+
+    std::unique_ptr<webrtc::VideoEncoderFactory> videoEncoderFactory = std::make_unique<isar::VideoEncoderFactory>();
+    std::unique_ptr<webrtc::VideoDecoderFactory> videoDecoderFactory = std::make_unique<isar::VideoDecoderFactory>();
+
   peer_factory_ = webrtc::CreatePeerConnectionFactory(
       network_thread_.get(), worker_thread_.get(), signaling_thread_.get(),
       nullptr, webrtc::CreateBuiltinAudioEncoderFactory(),
       webrtc::CreateBuiltinAudioDecoderFactory(),
-      std::unique_ptr<webrtc::VideoEncoderFactory>(
-          new webrtc::MultiplexEncoderFactory(
-              absl::make_unique<webrtc::InternalEncoderFactory>())),
-      std::unique_ptr<webrtc::VideoDecoderFactory>(
-          new webrtc::MultiplexDecoderFactory(
-              absl::make_unique<webrtc::InternalDecoderFactory>())),
+      std::move(videoEncoderFactory),
+      std::move(videoDecoderFactory),
       custom_audio_mixer_, nullptr);
 #endif  // defined(WINUWP)
   return (peer_factory_.get() != nullptr ? Result::kSuccess

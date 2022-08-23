@@ -72,6 +72,8 @@ add_library(
         ${mr-webrtc-native-dir}/src/tracked_object.cpp
         ${mr-webrtc-native-dir}/src/utils.cpp
         ${mr-webrtc-native-dir}/src/video_frame_observer.cpp
+        ${mr-webrtc-native-dir}/src/VideoEncoder.cpp
+        ${mr-webrtc-native-dir}/src/VideoDecoder.cpp
         ./jni_onload.cpp
 )
 
@@ -84,6 +86,7 @@ target_include_directories(
         ${libwebrtc-src-dir}/webrtc/src/
         ${libwebrtc-src-dir}/webrtc/src/third_party/abseil-cpp
         ${libwebrtc-src-dir}/webrtc/src/third_party/libyuv/include
+
 )
 
 # Build and link libmrwebrtc.so.
@@ -94,6 +97,8 @@ target_link_libraries(
         android
         dl
         OpenSLES
+        mediandk
+        OpenMAXAL
         # Tell the linker which symbols to actually make global and which to keep local
         # in the final libmrwebrtc.so, instead of keeping all the global (public) ones.
         # Not strictly necessary, but much cleaner as we control the API and prevent

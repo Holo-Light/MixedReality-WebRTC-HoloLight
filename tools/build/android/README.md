@@ -6,9 +6,9 @@
 
 2. Install prerequisites:
     * Android Studio (https://developer.android.com/studio/index.html). Once installed, use the System Settings/Android SDK dialog to install the following packages:
-        * SDKs 9.0 (Pie), 8.1 (Oreo)
-        * CMake
-        * NDK 16.1.4479499
+        * SDKs 10.0, 9.0 (Pie), 8.1 (Oreo)
+        * CMake 3.22.1
+        * NDK 23.2.8568313
     * JRE 1.8 (https://www.java.com/download/)
 
 3. Add environment variable JAVA_HOME pointing to your JRE install directory. e.g.: `JAVA_HOME="C:\Program Files\Android\Android Studio\jre"`
@@ -34,3 +34,15 @@
 * `./webrtc-native/build/outputs/aar/mrwebrtc.aar`
 
 > Note: This file is automatically copied to the Unity sample project upon successful build.
+
+###
+
+paths need to be changed somehow
+
+
+###
+
+Finally run the following command from the folder <path-to-folder>/MixedReality-WebRTC-HoloLight/tools/build/android/webrtc-native/build/outputs/aar/merged 
+in ubuntu
+
+sudo ./merge-archives.sh -m /mnt/d/MixedReality-WebRTC-HoloLight/tools/build/android/webrtc-native/build/outputs/aar/mrwebrtc-release.aar -o /mnt/d/MixedReality-WebRTC-HoloLight/tools/build/android/webrtc-native/build/outputs/aar/mrwebrtc.aar

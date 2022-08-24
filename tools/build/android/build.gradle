@@ -7,7 +7,7 @@ buildscript {
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:7.2.2'
         
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -27,8 +27,8 @@ task clean(type: Delete) {
 
 ext {
     compileSdkVersion = 29
-    buildToolsVersion = "28.0.2"
-    minSdkVersion = 25
+    buildToolsVersion = "33.0.0"
+    minSdkVersion = 29
     targetSdkVersion = 29
     versionCode = 1
     versionName = "1.0"

@@ -1,3 +1,10 @@
+# Hololight mrwebrtc building
+
+- clone master
+- checkout branch Release 2.0
+- Conitnue with building in folder tools/buils1
+
+
 # MixedReality-WebRTC
 
 [![Licensed under the MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/microsoft/MixedReality-WebRTC/blob/master/LICENSE)

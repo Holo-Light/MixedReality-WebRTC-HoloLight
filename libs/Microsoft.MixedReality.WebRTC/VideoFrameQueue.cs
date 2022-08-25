@@ -29,6 +29,8 @@ namespace Microsoft.MixedReality.WebRTC
         /// </summary>
         uint Height { get; set; }
 
+        long XrTimestamp { get; set; }
+
         /// <summary>
         /// Raw storage buffer of capacity <see cref="Capacity"/>.
         /// </summary>
@@ -63,6 +65,8 @@ namespace Microsoft.MixedReality.WebRTC
         /// Frame height, in pixels.
         /// </summary>
         public uint Height { get; set; }
+
+        public long XrTimestamp { get; set; }
 
         /// <summary>
         /// Raw byte buffer containing the frame data.
@@ -116,6 +120,8 @@ namespace Microsoft.MixedReality.WebRTC
         /// Raw byte buffer containing the frame data.
         /// </summary>
         public byte[] Buffer { get; private set; }
+
+        public long XrTimestamp { get; set; }
 
         /// <summary>
         /// Resize the internal buffer to the given capacity.
@@ -308,6 +314,7 @@ namespace Microsoft.MixedReality.WebRTC
             frame.CopyTo(storage.Buffer);
             storage.Width = frame.width;
             storage.Height = frame.height;
+            storage.XrTimestamp = frame.xrTimestamp;
 
             // Enqueue for later delivery
             _frameQueue.Enqueue(storage);

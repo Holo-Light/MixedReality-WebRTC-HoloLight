@@ -54,6 +54,8 @@ struct I420AVideoFrame {
   /// This is ignored if there is no A plane (|adata_| is NULL).
   /// Otherwise, this is always greater than or equal to |width_|.
   std::int32_t astride_;
+
+  std::int64_t xrTimestamp_;
 };
 
 /// View over an existing buffer representing a video frame encoded in ARGB

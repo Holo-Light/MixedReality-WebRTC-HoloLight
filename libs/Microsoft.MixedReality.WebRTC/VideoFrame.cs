@@ -74,6 +74,11 @@ namespace Microsoft.MixedReality.WebRTC
         public int strideA;
 
         /// <summary>
+        /// Hololight EDIT: The timestamp of the corresponding headpose
+        /// </summary>
+        public long xrTimestamp;
+
+        /// <summary>
         /// Copy the frame content to a <xref href="System.Byte"/>[] buffer as a contiguous block of memory
         /// containing the Y, U, and V planes one after another, and the alpha plane at the end if present.
         /// </summary>

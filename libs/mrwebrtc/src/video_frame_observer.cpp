@@ -75,6 +75,7 @@ void VideoFrameObserver::OnFrame(const webrtc::VideoFrame& frame) noexcept {
 
   const int width = frame.width();
   const int height = frame.height();
+  const webrtc::XRTimestamp xrTimestamp = frame.xr_timestamp();
 
   if (buffer->type() != webrtc::VideoFrameBuffer::Type::kI420A) {
     // The buffer is not encoded in I420 with alpha channel; use I420 without
@@ -98,6 +99,7 @@ void VideoFrameObserver::OnFrame(const webrtc::VideoFrame& frame) noexcept {
       i420a_frame.astride_ = 0;
       i420a_frame.width_ = width;
       i420a_frame.height_ = height;
+      i420a_frame.xrTimestamp_ = xrTimestamp.prediction;
       i420a_callback_(i420a_frame);
     }
 

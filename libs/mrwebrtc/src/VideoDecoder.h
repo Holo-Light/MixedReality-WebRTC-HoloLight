@@ -43,12 +43,14 @@ private:
 	const static int64_t DEQUEUE_OUTPUT_BUFFER_TIMEOUT_US = 500;
 
 	struct FrameInfo {
-		FrameInfo(int64_t decodeStartIimeMs, int64_t xrTimeStamp)
+		FrameInfo(int64_t decodeStartIimeMs, uint32_t timestampFrame, webrtc::XRTimestamp xrTimeStamp)
 			: decodeStartIimeMs_(decodeStartIimeMs)
+			, timestampFrame_(timestampFrame)
 			, XRTimeStamp_(xrTimeStamp)
 		{}
 		int64_t decodeStartIimeMs_;
-		int64_t XRTimeStamp_;
+		uint32_t timestampFrame_;
+		webrtc::XRTimestamp XRTimeStamp_;
 	};
 	typedef std::unique_ptr<FrameInfo> FrameInfoPtr;
 	typedef std::queue<FrameInfoPtr> FrameInfos;

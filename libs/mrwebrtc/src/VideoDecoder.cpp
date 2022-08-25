@@ -63,7 +63,7 @@ int32_t VideoDecoder::Decode(const webrtc::EncodedImage& inputImage, bool missin
 		memcpy(buffer, inputImage._buffer, inputImage._size);
 		{
 			std::unique_lock<std::mutex> locker(frameInfoMutex_);
-			frameInfos_.push(std::make_unique<FrameInfo>(current_time_ms(),inputImage.Timestamp()));
+			frameInfos_.push(std::make_unique<FrameInfo>(current_time_ms(), inputImage.Timestamp(), inputImage.xr_timestamp_));
 		}
 		AMediaCodec_queueInputBuffer(codec_, bufidx, 0, inputImage._size, inputImage.ntp_time_ms_, 0);
 	}
@@ -89,6 +89,7 @@ void VideoDecoder::outputProcessor()
 		} while (current_bufidx >= 0);
 
 		if (buffer_queue.size() != 0) {
+			//discard all frames except the last one
 			while (buffer_queue.size() > 1) {
 				{
 					std::unique_lock<std::mutex> locker(frameInfoMutex_);
@@ -112,8 +113,9 @@ void VideoDecoder::outputProcessor()
 			}
 
 			if (decodedImageCallback_) {
+				webrtc::VideoFrame vf(myBuffer,frameInfo->timestampFrame_, 0, webrtc::kVideoRotation_0);
+                vf.set_xr_timestamp(frameInfo->XRTimeStamp_);
 
-				webrtc::VideoFrame vf(myBuffer,frameInfo->XRTimeStamp_, 0, webrtc::kVideoRotation_0);
 				decodedImageCallback_->Decoded(vf);
                 //LOGV("VideoDecoder: frameInfo->XRTimeStamp_ %li", frameInfo->XRTimeStamp_);
 				/*frameBufferCallback_->onFrameBuffer(codecSettings_.width, codecSettings_.height,

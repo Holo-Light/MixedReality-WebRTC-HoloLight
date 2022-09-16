@@ -2,7 +2,7 @@
 
 - clone master
 - checkout branch Release 2.0
-- Conitnue with building in folder tools/buils1
+- Continue with the build instructions in the tools/buils folder
 
 
 # MixedReality-WebRTC

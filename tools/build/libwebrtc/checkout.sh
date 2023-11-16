@@ -87,10 +87,10 @@ calc-git-revision
 create-WORK_DIR-and-cd
 
 # Checkout depot tools
-checkout-depot-tools
+#checkout-depot-tools
 
 # Checkout WebRTC source for the target platform
-checkout-webrtc
+#checkout-webrtc
 
 # Verify WebRTC dependencies are installed
 verify-webrtc-deps

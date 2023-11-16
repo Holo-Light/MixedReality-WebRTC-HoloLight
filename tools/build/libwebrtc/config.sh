@@ -52,7 +52,7 @@ EOF
 
 #-----------------------------------------------------------------------------
 function verify-arguments() {
-    BRANCH=${BRANCH:-branch-heads/71}
+    BRANCH=${BRANCH:-branch-heads/5735}
     WORK_DIR=${WORK_DIR:-work}
     VERBOSE=${VERBOSE:-0}
     TARGET_OS=${TARGET_OS:-android}

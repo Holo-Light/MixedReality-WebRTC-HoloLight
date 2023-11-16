@@ -76,7 +76,7 @@ add_library(
         ${mr-webrtc-native-dir}/src/VideoDecoder.cpp
         ./jni_onload.cpp
 )
-
+#target_compile_features(mrwebrtc PRIVATE cxx_std_17)
 # List of include directories.
 target_include_directories(
         mrwebrtc

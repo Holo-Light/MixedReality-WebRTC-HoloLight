@@ -90,7 +90,8 @@ void AudioTrackReadBuffer::Buffer::addFrame(const Frame& frame,
     src_count = buffer_front.size();
     swap(buffer_front, buffer_back);
   } else {
-    FATAL();
+    RTC_FATAL(); // MY
+    //FATAL();  MY
     return;
   }
 
@@ -202,7 +203,7 @@ void AudioTrackReadBuffer::Read(int sample_rate,
             sinwave_iter_ += dst_len;
             break;
           default:
-            RTC_NOTREACHED();
+            RTC_CHECK_NOTREACHED(); // MY
             break;
         }
 

@@ -266,9 +266,9 @@ function verify-webrtc-deps() {
         ;;
     esac
 
-    if [ $TARGET_OS = 'android' ]; then
-        sudo $SRC_DIR/src/build/install-build-deps-android.sh
-    fi
+    #if [ $TARGET_OS = 'android' ]; then
+    #    sudo $SRC_DIR/src/build/install-build-deps-android.sh
+    #fi
 }
 
 #-----------------------------------------------------------------------------

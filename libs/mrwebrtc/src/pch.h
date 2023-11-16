@@ -46,32 +46,32 @@
 // Core WebRTC
 #include "api/audio_codecs/builtin_audio_decoder_factory.h"
 #include "api/audio_codecs/builtin_audio_encoder_factory.h"
-#include "api/datachannelinterface.h"
-#include "api/mediaconstraintsinterface.h"
-#include "api/mediastreaminterface.h"
-#include "api/peerconnectioninterface.h"
-#include "api/rtpsenderinterface.h"
+#include "api/data_channel_interface.h"
+//#include "api/mediaconstraintsinterface.h"
+#include "api/media_stream_interface.h"
+#include "api/peer_connection_interface.h"
+#include "api/rtp_sender_interface.h"
 #include "api/stats/rtcstats_objects.h"
 #include "api/transport/bitrate_settings.h"
 #include "api/video/i420_buffer.h"
-#include "api/videosourceproxy.h"
-#include "media/base/adaptedvideotracksource.h"
-#include "media/engine/internaldecoderfactory.h"
-#include "media/engine/internalencoderfactory.h"
-#include "media/engine/multiplexcodecfactory.h"
-#include "media/engine/webrtcvideocapturerfactory.h"
-#include "media/engine/webrtcvideodecoderfactory.h"
-#include "media/engine/webrtcvideoencoderfactory.h"
+//#include "api/videosourceproxy.h"
+#include "media/base/adapted_video_track_source.h"
+#include "media/engine/internal_decoder_factory.h"
+#include "media/engine/internal_encoder_factory.h"
+#include "media/engine/multiplex_codec_factory.h"
+//#include "media/engine/webrtcvideocapturerfactory.h" MY
+//#include "media/engine/webrtcvideodecoderfactory.h" MY
+//#include "media/engine/webrtcvideoencoderfactory.h" MY
 #include "modules/audio_device/include/audio_device.h"
 #include "modules/audio_mixer/audio_mixer_impl.h"
 #include "modules/audio_processing/include/audio_processing.h"
 #include "modules/video_capture/video_capture_factory.h"
-#include "rtc_base/bind.h"
+//#include "rtc_base/bind.h" MY
 #include "rtc_base/memory/aligned_malloc.h"
 #if defined(MR_SHARING_ANDROID)
 #include "sdk/android/native_api/jni/class_loader.h"
 #include "modules/utility/include/helpers_android.h"
-#include "sdk/android/src/jni/androidvideotracksource.h"
+#include "sdk/android/src/jni/android_video_track_source.h"
 #include "sdk/android/src/jni/jni_helpers.h"
 #endif
 

@@ -15,8 +15,8 @@ namespace isar
         int Release() override {}
         int Encode(const webrtc::VideoFrame& input_image,
                    const webrtc::CodecSpecificInfo* codec_specific_info,
-                   const std::vector<webrtc::FrameType>* frame_types) override {}
-        int SetChannelParameters(uint32_t packet_loss, int64_t rtt) override {}
+                   const std::vector<webrtc::VideoFrameType>* frame_types) {}
+        int SetChannelParameters(uint32_t packet_loss, int64_t rtt) {}
         //void SetRates(const webrtc::RateControlParameters& parameters) override {}
         //webrtc::ScalingSettings GetScalingSettings() const override {}
         //const char* ImplementationName() const override {}
@@ -26,7 +26,7 @@ class VideoEncoderFactory : public webrtc::VideoEncoderFactory {
 public:
     std::unique_ptr<webrtc::VideoEncoder> CreateVideoEncoder(const webrtc::SdpVideoFormat& format) override;
     std::vector<webrtc::SdpVideoFormat> GetSupportedFormats() const override;
-    CodecInfo QueryVideoEncoder(const webrtc::SdpVideoFormat& format) const override;
+    //CodecInfo QueryVideoEncoder(const webrtc::SdpVideoFormat& format) const override; MY
 };
 
 }  // namespace isar

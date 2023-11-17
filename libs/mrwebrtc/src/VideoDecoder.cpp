@@ -52,20 +52,20 @@ int32_t VideoDecoder::Decode(const webrtc::EncodedImage& inputImage, bool missin
 	}
     //LOGV("VideoDecoder: decode %dx%d", codecSettings_.width, codecSettings_.height);
 	ssize_t bufidx = AMediaCodec_dequeueInputBuffer(codec_,
-			 inputImage._frameType == webrtc::FrameType::kVideoFrameKey ? DEQUEUE_INPUT_KEY_TIMEOUT_US : DEQUEUE_INPUT_DELTA_TIMEOUT_US);
+			 inputImage._frameType == webrtc::VideoFrameType::kVideoFrameKey ? DEQUEUE_INPUT_KEY_TIMEOUT_US : DEQUEUE_INPUT_DELTA_TIMEOUT_US); //MY
 	if (bufidx >= 0) {
 		size_t bufsize;
 		auto buffer = AMediaCodec_getInputBuffer(codec_, bufidx, &bufsize);
-		if (bufsize < inputImage._size) {
+		if (bufsize < inputImage.size()) { //MY
             //LOGV("VideoDecoder: input buffer size %zd less than image size %zd", bufsize, inputImage._size);
 			return WEBRTC_VIDEO_CODEC_ERROR;
 		}
-		memcpy(buffer, inputImage._buffer, inputImage._size);
+		memcpy(buffer, inputImage._buffer, inputImage.size()); //MY
 		{
 			std::unique_lock<std::mutex> locker(frameInfoMutex_);
 			frameInfos_.push(std::make_unique<FrameInfo>(current_time_ms(), inputImage.Timestamp(), inputImage.xr_timestamp_));
 		}
-		AMediaCodec_queueInputBuffer(codec_, bufidx, 0, inputImage._size, inputImage.ntp_time_ms_, 0);
+		AMediaCodec_queueInputBuffer(codec_, bufidx, 0, inputImage.size(), inputImage.ntp_time_ms_, 0); //MY
 	}
 	else {
         //LOGV("VideoDecoder: dequeueInputBuffer no input buffer available");

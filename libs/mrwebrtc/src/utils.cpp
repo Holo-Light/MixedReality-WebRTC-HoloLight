@@ -49,7 +49,7 @@ mrsMediaKind MediaKindFromRtc(cricket::MediaType media_type) {
       return mrsMediaKind::kVideo;
     default:
       RTC_LOG(LS_ERROR) << "Invalid media type, expected audio or video.";
-      RTC_NOTREACHED();
+      RTC_CHECK_NOTREACHED(); // changed from RTC_NOTREACHED MY
       // Silence error about uninitialized variable when assigning the result of
       // this function, and return some visibly invalid value.
       return (mrsMediaKind)-1;

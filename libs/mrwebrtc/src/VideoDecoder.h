@@ -20,7 +20,7 @@ class FrameBufferCallback;
 
 class VideoDecoder : public webrtc::VideoDecoder {
 public:
-	int32_t InitDecode(const webrtc::VideoCodec* codecSettings, int32_t numberOfCores) override;
+	int32_t InitDecode(const webrtc::VideoCodec* codecSettings, int32_t numberOfCores); //MY
     int32_t Release() override;
 
     int32_t RegisterDecodeCompleteCallback(webrtc::DecodedImageCallback* callback) override {
@@ -28,7 +28,7 @@ public:
 		return WEBRTC_VIDEO_CODEC_OK;
 	}
 
-	int32_t Decode(const webrtc::EncodedImage& inputImage, bool missingFrames,const webrtc::CodecSpecificInfo* codec_specific_info, int64_t renderTimeMs) override;
+	int32_t Decode(const webrtc::EncodedImage& inputImage, bool missingFrames,const webrtc::CodecSpecificInfo* codec_specific_info, int64_t renderTimeMs) ;// MY
 
     const char* ImplementationName() const override {
 		return "IsarH264Decoder";

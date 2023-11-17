@@ -1,6 +1,7 @@
 #pragma once
 
 #include <api/video_codecs/video_encoder_factory.h>
+#include <api/video_codecs/video_encoder.h>
 #include <modules/video_coding/codecs/h264/include/h264.h>
 
 namespace isar
@@ -26,7 +27,11 @@ class VideoEncoderFactory : public webrtc::VideoEncoderFactory {
 public:
     std::unique_ptr<webrtc::VideoEncoder> CreateVideoEncoder(const webrtc::SdpVideoFormat& format) override;
     std::vector<webrtc::SdpVideoFormat> GetSupportedFormats() const override;
-    //CodecInfo QueryVideoEncoder(const webrtc::SdpVideoFormat& format) const override; MY
+    struct CodecInfo{ // created by MY
+        bool is_hardware_accelerated = false;
+        bool has_internal_source = false;
+    };
+    CodecInfo QueryVideoEncoder(const webrtc::SdpVideoFormat& format) const ; //MY
 };
 
 }  // namespace isar

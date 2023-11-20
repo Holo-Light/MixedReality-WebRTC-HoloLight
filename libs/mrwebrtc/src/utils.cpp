@@ -64,7 +64,7 @@ cricket::MediaType MediaKindToRtc(mrsMediaKind media_kind) {
       return cricket::MediaType::MEDIA_TYPE_VIDEO;
     default:
       RTC_LOG(LS_ERROR) << "Unknown media kind, expected audio or video.";
-      RTC_NOTREACHED();
+      RTC_CHECK_NOTREACHED();//RTC_NOTREACHED(); MY
       // Silence error about uninitialized variable when assigning the result of
       // this function, and return some visibly invalid value (mrsMediaKind is
       // audio or video only).
@@ -129,7 +129,7 @@ absl::string_view ObjectTypeToString(ObjectType type) {
     case ObjectType::kExternalVideoTrackSource:
       return "ExternalVideoTrackSource";
     default:
-      RTC_NOTREACHED();
+      RTC_CHECK_NOTREACHED();//RTC_NOTREACHED();  MY
       return "<UnknownObjectType>";
   }
 }
@@ -144,7 +144,7 @@ std::string ObjectToString(TrackedObject* obj) {
   if (obj) {
     builder << "(";
     absl::string_view sv = ObjectTypeToString(obj->GetObjectType());
-    builder.Append(sv.data(), sv.length());
+      builder.AppendFormat(sv.data(), sv.length());//builder.Append(sv.data(), sv.length());  MY
     builder << ") " << obj->GetName();
   } else {
     builder << "NULL";

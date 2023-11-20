@@ -230,7 +230,7 @@ webrtc::SdpType SdpTypeFromApiType(mrsSdpMessageType api_type) {
     case mrsSdpMessageType::kAnswer:
       return webrtc::SdpType::kAnswer;
     default:
-      RTC_NOTREACHED();
+      RTC_CHECK_NOTREACHED(); //MY
       return (webrtc::SdpType)-1;  // invalid
   }
 }
@@ -242,7 +242,7 @@ mrsSdpMessageType ApiTypeFromSdpType(webrtc::SdpType type) {
     case webrtc::SdpType::kAnswer:
       return mrsSdpMessageType::kAnswer;
     default:
-      RTC_NOTREACHED();
+      RTC_CHECK_NOTREACHED();//RTC_NOTREACHED();  MY
       return (mrsSdpMessageType)-1;  // invalid
   }
 }

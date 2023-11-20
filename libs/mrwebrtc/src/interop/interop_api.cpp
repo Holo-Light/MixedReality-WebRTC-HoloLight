@@ -573,7 +573,7 @@ mrsStatsReportGetObjects(mrsStatsReportHandle report_handle,
       if (!strcmp(stats.type(), "data-channel")) {
         const auto& dc_stats = stats.cast_to<webrtc::RTCDataChannelStats>();
         mrsDataChannelStats simple_stats{
-            dc_stats.timestamp_us(),     *dc_stats.datachannelid,
+                dc_stats.timestamp(),     *dc_stats.data_channel_identifier,//dc_stats.timestamp_us(),     *dc_stats.datachannelid,  MY
             *dc_stats.messages_sent,     *dc_stats.bytes_sent,
             *dc_stats.messages_received, *dc_stats.bytes_received};
         (*callback)(user_data, &simple_stats);
@@ -586,7 +586,7 @@ mrsStatsReportGetObjects(mrsStatsReportHandle report_handle,
     for (auto&& stats : *report) {
       if (!strcmp(stats.type(), "outbound-rtp")) {
         const auto& ortp_stats =
-            stats.cast_to<webrtc::RTCOutboundRTPStreamStats>();
+            stats.cast_to<webrtc::RTCOutboundRtpStreamStats>(); //MY
         if (*ortp_stats.kind == "audio" &&
             // Removing a track will leave a "trackless" RTP stream. Ignore it.
             ortp_stats.track_id.is_defined()) {

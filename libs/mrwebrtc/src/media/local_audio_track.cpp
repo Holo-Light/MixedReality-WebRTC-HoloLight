@@ -109,7 +109,7 @@ void LocalAudioTrack::RemoveFromPeerConnection(
     webrtc::PeerConnectionInterface& peer) {
   if (transceiver_->IsUnifiedPlan()) {
     if (sender_) {
-      peer.RemoveTrack(sender_);
+      peer.RemoveTrackOrError(sender_);
       sender_ = nullptr;
       owner_ = nullptr;
       transceiver_->OnLocalTrackRemoved(this);

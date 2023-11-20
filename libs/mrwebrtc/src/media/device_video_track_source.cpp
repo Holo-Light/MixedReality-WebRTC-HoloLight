@@ -64,12 +64,12 @@ uint32_t FourCCFromVideoType(webrtc::VideoType videoType) {
       return (uint32_t)libyuv::FOURCC_ABGR;
     case webrtc::VideoType::kARGB:
       return (uint32_t)libyuv::FOURCC_ARGB;
-    case webrtc::VideoType::kARGB4444:
-      return (uint32_t)libyuv::FOURCC_R444;
+    /*case webrtc::VideoType::kARGB4444:
+      return (uint32_t)libyuv::FOURCC_R444;*/
     case webrtc::VideoType::kRGB565:
       return (uint32_t)libyuv::FOURCC_RGBP;
-    case webrtc::VideoType::kARGB1555:
-      return (uint32_t)libyuv::FOURCC_RGBO;
+    /*case webrtc::VideoType::kARGB1555:
+      return (uint32_t)libyuv::FOURCC_RGBO;*/
     case webrtc::VideoType::kYUY2:
       return (uint32_t)libyuv::FOURCC_YUY2;
     case webrtc::VideoType::kYV12:
@@ -78,8 +78,8 @@ uint32_t FourCCFromVideoType(webrtc::VideoType videoType) {
       return (uint32_t)libyuv::FOURCC_UYVY;
     case webrtc::VideoType::kMJPEG:
       return (uint32_t)libyuv::FOURCC_MJPG;
-    case webrtc::VideoType::kNV21:
-      return (uint32_t)libyuv::FOURCC_NV21;
+    /*case webrtc::VideoType::kNV21:
+      return (uint32_t)libyuv::FOURCC_NV21;*/
     case webrtc::VideoType::kNV12:
       return (uint32_t)libyuv::FOURCC_NV12;
     case webrtc::VideoType::kBGRA:
@@ -87,7 +87,7 @@ uint32_t FourCCFromVideoType(webrtc::VideoType videoType) {
   };
 }
 
-class SimpleMediaConstraints : public webrtc::MediaConstraintsInterface {
+class SimpleMediaConstraints : public webrtc::Media {
  public:
   using webrtc::MediaConstraintsInterface::Constraint;
   using webrtc::MediaConstraintsInterface::Constraints;

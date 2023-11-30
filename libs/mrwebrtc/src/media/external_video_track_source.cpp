@@ -6,6 +6,8 @@
 #include "interop/global_factory.h"
 #include "media/external_video_track_source.h"
 
+#include "rtc_base/deprecated/recursive_critical_section.h"
+
 namespace {
 
 using namespace Microsoft::MixedReality::WebRTC;

@@ -6,6 +6,7 @@
 #include "interop/global_factory.h"
 #include "media/device_video_track_source.h"
 #include "video_track_source_interop.h"
+#include "sdk/android/src/jni/pc/media_constraints.h"
 
 #if defined(WINUWP)
 #include <winrt/Windows.Foundation.Collections.h>
@@ -89,10 +90,10 @@ uint32_t FourCCFromVideoType(webrtc::VideoType videoType) {
 
 class SimpleMediaConstraints : public webrtc::Media {
  public:
-  using webrtc::MediaConstraintsInterface::Constraint;
-  using webrtc::MediaConstraintsInterface::Constraints;
-  static Constraint MinWidth(uint32_t min_width) {
-    return Constraint(webrtc::MediaConstraintsInterface::kMinWidth,
+  using webrtc::MediaConstraints::Constraint;
+  using webrtc::MediaConstraints::Constraints;
+  static webrtc::MediaConstraints::Constraint MinWidth(uint32_t min_width) {
+    return Constraint(webrtc::MediaConstraints::kMinWidth,
                       std::to_string(min_width));
   }
   static Constraint MaxWidth(uint32_t max_width) {

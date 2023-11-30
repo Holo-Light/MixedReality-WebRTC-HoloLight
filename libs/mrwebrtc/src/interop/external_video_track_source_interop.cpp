@@ -162,7 +162,7 @@ RefPtr<ExternalVideoTrackSource> ExternalVideoTrackSourceCreateFromI420A(
   }
   // Tracks need to be created from the worker thread
   rtc::Thread* const worker_thread = global_factory->GetWorkerThread();
-  auto track_source = worker_thread->Invoke<RefPtr<ExternalVideoTrackSource>>(
+  auto track_source = worker_thread->BlockingCall()<RefPtr<ExternalVideoTrackSource>>( //MY
       RTC_FROM_HERE, rtc::Bind(&ExternalVideoTrackSource::createFromI420A,
                                std::move(global_factory), custom_source));
   if (!track_source) {

@@ -539,13 +539,13 @@ mrsResult MRS_CALL mrsPeerConnectionGetSimpleStats(
 
 namespace {
 template <class T>
-void GetCommonValues(T& lhs, const webrtc::RTCOutboundRTPStreamStats& rhs) {
+void GetCommonValues(T& lhs, const webrtc::RTCOutboundRtpStreamStats& rhs) {
   lhs.rtp_stats_timestamp_us = rhs.timestamp_us();
   lhs.packets_sent = *rhs.packets_sent;
   lhs.bytes_sent = *rhs.bytes_sent;
 }
 template <class T>
-void GetCommonValues(T& lhs, const webrtc::RTCInboundRTPStreamStats& rhs) {
+void GetCommonValues(T& lhs, const webrtc::RTCInboundRtpStreamStats& rhs) {
   lhs.rtp_stats_timestamp_us = rhs.timestamp_us();
   lhs.packets_received = *rhs.packets_received;
   lhs.bytes_received = *rhs.bytes_received;

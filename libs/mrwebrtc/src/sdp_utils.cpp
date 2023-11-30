@@ -85,7 +85,9 @@ bool SdpIsValidToken(absl::string_view token) noexcept {
 void SdpParseCodecParameters(const std::string& param_string,
                              std::map<std::string, std::string>& params) {
   std::vector<std::string> key_values;
+
   rtc::split(param_string, ';', &key_values);
+
   for (auto&& kv : key_values) {
     std::vector<std::string> param(2);
     if (rtc::split(kv, '=', &param) == 2) {

@@ -60,7 +60,7 @@ int32_t VideoDecoder::Decode(const webrtc::EncodedImage& inputImage, bool missin
             //LOGV("VideoDecoder: input buffer size %zd less than image size %zd", bufsize, inputImage._size);
 			return WEBRTC_VIDEO_CODEC_ERROR;
 		}
-		memcpy(buffer, inputImage._buffer, inputImage.size()); //MY
+		memcpy(buffer, inputImage.data(), inputImage.size()); //MY
 		{
 			std::unique_lock<std::mutex> locker(frameInfoMutex_);
 			frameInfos_.push(std::make_unique<FrameInfo>(current_time_ms(), inputImage.Timestamp(), inputImage.xr_timestamp_));

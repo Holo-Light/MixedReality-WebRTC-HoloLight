@@ -19,6 +19,9 @@
 #include "utils.h"
 #include "video_frame_observer.h"
 
+#include "rtc_base/deprecated/recursive_critical_section.h"
+
+
 #include <functional>
 
 // Include implementation because we cannot access the mline index from the
@@ -179,7 +182,7 @@ class SessionDescObserver : public webrtc::SetSessionDescriptionObserver {
     RTC_LOG(LS_ERROR) << "Error setting session description: "
                       << error.message();
   }
-  void OnFailure(const std::string& error) override {
+  void OnFailure(const std::string& error)  {
     RTC_LOG(LS_ERROR) << "Error setting session description: " << error;
   }
 
@@ -329,7 +332,7 @@ ErrorOr<std::shared_ptr<DataChannel>> PeerConnection::AddDataChannel(
     // Call from the signaling thread so that user callbacks can access the
     // channel state (e.g. register channel callbacks) without it being changed
     // concurrently by WebRTC.
-    global_factory_->GetSignalingThread()->Invoke<void>(RTC_FROM_HERE, [&]() {
+    global_factory_->GetSignalingThread()->BlockingCall([&]() {  //MY
       OnDataChannelAdded(*data_channel.get());
     });
 
@@ -937,7 +940,7 @@ void PeerConnection::OnAddTrack(
             const rtc::scoped_refptr<const webrtc::RTCStatsReport>&
                 report) noexcept override {
           const auto& stats =
-              report->GetStatsOfType<webrtc::RTCInboundRTPStreamStats>();
+                  report->GetStatsOfType<webrtc::RTCInboundRtpStreamStats>();//report->GetStatsOfType<webrtc::RTCInboundRTPStreamStats>();
           RTC_DCHECK_EQ(stats.size(), 1);
           // This starts to output the track - or not, if the user has called
           // OutputToDevice(false) in the track added callback.
@@ -1006,7 +1009,7 @@ void PeerConnection::OnRemoveTrack(
 void PeerConnection::OnLocalDescCreated(
     webrtc::SessionDescriptionInterface* desc) noexcept {
   RTC_DCHECK(peer_);
-  rtc::scoped_refptr<webrtc::SetSessionDescriptionObserver> observer =
+  rtc::scoped_refptr<webrtc::SetLocalDescriptionObserverInterface> observer =
       new rtc::RefCountedObject<SessionDescObserver>([this] {
         if (IsUnifiedPlan()) {
           SynchronizeTransceiversUnifiedPlan(/*remote=*/false);
@@ -1032,7 +1035,7 @@ void PeerConnection::OnLocalDescCreated(
   // SetLocalDescription will invoke observer.OnSuccess() once done, which
   // will in turn invoke the |local_sdp_ready_to_send_callback_| registered if
   // any, or do nothing otherwise. The observer is a mandatory parameter.
-  peer_->SetLocalDescription(observer, desc);
+  peer_->SetLocalDescription(observer);
 }
 
 RefPtr<Transceiver> PeerConnection::FindWrapperFromRtpTransceiver(

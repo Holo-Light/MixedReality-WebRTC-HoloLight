@@ -564,7 +564,7 @@ class PeerConnection : public TrackedObject,
       RTC_GUARDED_BY(transceivers_mutex_);
 
   /// Mutex for the collections of transceivers.
-  rtc::CriticalSection transceivers_mutex_;
+  webrtc::Mutex transceivers_mutex_;
 
   /// Collection of all data channels associated with this peer connection.
   std::vector<std::shared_ptr<DataChannel>> data_channels_

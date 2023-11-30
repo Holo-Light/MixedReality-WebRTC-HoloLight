@@ -193,7 +193,7 @@ class ExternalVideoTrackSource : public VideoTrackSource,
   uint32_t next_request_id_ RTC_GUARDED_BY(request_lock_){};
 
   /// Lock for frame requests.
-  rtc::CriticalSection request_lock_;
+  webrtc::Mutex request_lock_;
 };
 
 namespace detail {

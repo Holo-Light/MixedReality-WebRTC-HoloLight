@@ -2,15 +2,24 @@
 // Licensed under the MIT License.
 
 #include <jni.h>
+#include <absl/log/log_basic_test_impl.h>
 
 // Export as global (public) symbol
 #define MRS_JNIEXPORT __attribute__((visibility("default")))
 
 #include "modules/utility/include/jvm_android.h"
 #include "rtc_base/logging.h"
-#include "rtc_base/ssladapter.h"
+#include "rtc_base/ssl_adapter.h"
 #include "sdk/android/native_api/base/init.h"
-#include "sdk/android/src/jni/classreferenceholder.h"
+
+//#include "sdk/android/src/jni/classreferenceholder.h"
+// Android: Replacement for JNIEnv::FindClass that works from any thread
+//
+//This CL adds a replacement for JNIEnv::FindClass that works from any
+//thread, i.e. from native C++ threads as well. This function will be used
+//from the generated JNI code. Long term, we should stop using
+//classreferenceholder that relies on a hardcoded list of WebRTC classes.
+
 #include "sdk/android/src/jni/jni_helpers.h"
 #include "sdk/android/src/jni/jvm.h"
 
@@ -18,7 +27,7 @@
 /// This is called on a thread which is already attached to the JVM, so has a
 /// valid JNIEnv already.
 extern "C" jint MRS_JNIEXPORT JNICALL JNI_OnLoad(JavaVM* jvm, void* reserved) {
-  RTC_LOG(INFO) << "JNI_OnLoad() for MR-WebRTC";
+  RTC_LOG(LS_INFO) << "JNI_OnLoad() for MR-WebRTC";
 
   // This is supposed to be a handy helper which calls InitGlobalJniVariables()
   // + InitClassLoader(), but it doesn't return the value that needs to be
@@ -38,10 +47,7 @@ extern "C" jint MRS_JNIEXPORT JNICALL JNI_OnLoad(JavaVM* jvm, void* reserved) {
   // connection.
   RTC_CHECK(rtc::InitializeSSL()) << "Failed to InitializeSSL()";
 
-  // Initialize the class loader (of sdk/android/native_api/jni/class_loader.cc)
-  // which is used to load Java classes from C++ and keep them alive.
-  // webrtc::jni::LoadGlobalClassReferenceHolder(); //deprecated
-  webrtc::InitClassLoader(webrtc::jni::GetEnv());
+
 
   // This is called by the official JNI_OnLoad() of
   // examples/androidnativeapi/jni/onload.cc. This seems to initialize a
@@ -65,7 +71,7 @@ extern "C" jint MRS_JNIEXPORT JNICALL JNI_OnLoad(JavaVM* jvm, void* reserved) {
 /// Auto-magic function called by the Java VM when the library is unloaded.
 extern "C" void MRS_JNIEXPORT JNICALL JNI_OnUnLoad(JavaVM* jvm,
                                                    void* reserved) {
-  RTC_LOG(INFO) << "JNI_OnUnLoad() for MR-WebRTC";
+  RTC_LOG(LS_INFO) << "JNI_OnUnLoad() for MR-WebRTC";
 
   // Clean-up the second JVM/JNI set. Unclear if that should be done since the
   // Java path to initialize from Android.Initialize() doesn't have a shutdown

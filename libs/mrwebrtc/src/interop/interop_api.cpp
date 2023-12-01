@@ -528,7 +528,7 @@ mrsResult MRS_CALL mrsPeerConnectionGetSimpleStats(
         (*callback_)(user_data_, report.get());
       }
     };
-    rtc::scoped_refptr<Collector> collector =
+    rtc::RefCountedObject<Collector>* collector =
         new rtc::RefCountedObject<Collector>(callback, user_data);
 
     peer->GetStats(collector);

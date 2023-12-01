@@ -177,7 +177,7 @@ Result ExternalVideoTrackSource::CompleteRequest(
   // Validate pending request ID and retrieve frame timestamp
   int64_t timestamp_ms_original = -1;
   {
-    rtc::CritScope lock(&request_lock_);
+      webrtc::MutexLock lock(&request_lock_);
     for (auto it = pending_requests_.begin(); it != pending_requests_.end();
          ++it) {
       if (it->first == request_id) {
@@ -215,7 +215,7 @@ Result ExternalVideoTrackSource::CompleteRequest(
   // Validate pending request ID and retrieve frame timestamp
   int64_t timestamp_ms_original = -1;
   {
-    rtc::CritScope lock(&request_lock_);
+      webrtc::MutexLock lock(&request_lock_);
     for (auto it = pending_requests_.begin(); it != pending_requests_.end();
          ++it) {
       if (it->first == request_id) {
@@ -271,7 +271,7 @@ void ExternalVideoTrackSource::OnMessage(rtc::Message* message) {
       // Request a frame from the external video source
       uint32_t request_id = 0;
       {
-        rtc::CritScope lock(&request_lock_);
+          webrtc::MutexLock lock(&request_lock_);
         // Discard an old request if no space available. This allows restarting
         // after a long delay, otherwise skipping the request generally also
         // prevent the user from calling CompleteFrame() to make some space for

@@ -15,6 +15,8 @@
 #include "utils.h"
 #include "video_frame_observer.h"
 
+#include "rtc_base/deprecated/recursive_critical_section.h"
+
 namespace Microsoft {
 namespace MixedReality {
 namespace WebRTC {
@@ -74,6 +76,9 @@ struct BitrateSettings {
 class PeerConnection : public TrackedObject,
                        public webrtc::PeerConnectionObserver {
  public:
+    /// Mutex for the collections of transceivers.
+    webrtc::Mutex transceivers_mutex_;
+
   /// Create a new PeerConnection based on the given |config|.
   /// This serves as the constructor for PeerConnection.
   static ErrorOr<RefPtr<PeerConnection>> create(
@@ -459,13 +464,18 @@ class PeerConnection : public TrackedObject,
 
   void OnLocalDescCreated(webrtc::SessionDescriptionInterface* desc) noexcept;
 
+  /*webrtc::Mutex GetTransceiverMutex()
+  {
+    return transceivers_mutex_;
+  }*/
+
   //
   // Internal
   //
 
   /// The underlying PC object from the core implementation. This is NULL
   /// after |Close()| is called.
-  rtc::scoped_refptr<webrtc::PeerConnectionInterface> peer_;
+  rtc::RefCountedObject<webrtc::PeerConnectionInterface>* peer_;
 
  protected:
   /// User callback invoked when the peer connection received a new data channel
@@ -563,8 +573,7 @@ class PeerConnection : public TrackedObject,
   std::vector<RefPtr<Transceiver>> transceivers_
       RTC_GUARDED_BY(transceivers_mutex_);
 
-  /// Mutex for the collections of transceivers.
-  webrtc::Mutex transceivers_mutex_;
+
 
   /// Collection of all data channels associated with this peer connection.
   std::vector<std::shared_ptr<DataChannel>> data_channels_
@@ -599,6 +608,8 @@ class PeerConnection : public TrackedObject,
   rtc::scoped_refptr<ToggleAudioMixer> audio_mixer_;
 
  private:
+
+
   PeerConnection(RefPtr<GlobalFactory> global_factory);
   PeerConnection(const PeerConnection&) = delete;
   ~PeerConnection() noexcept { Close(); }
@@ -775,7 +786,8 @@ class PeerConnection : public TrackedObject,
           track_removed_cb) {
     using Media = MediaTrait<MEDIA_KIND>;
 
-    rtc::CritScope tracks_lock(&transceivers_mutex_);
+    //rtc::CritScope tracks_lock(&transceivers_mutex_);
+    webrtc::MutexLock tracks_lock(&transceivers_mutex_);
     auto it = std::find_if(transceivers_.begin(), transceivers_.end(),
                            [receiver](const RefPtr<Transceiver>& tr) {
                              return tr->HasReceiver(receiver);

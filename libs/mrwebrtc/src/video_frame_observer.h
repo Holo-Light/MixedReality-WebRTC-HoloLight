@@ -34,13 +34,13 @@ class ArgbBuffer : public webrtc::VideoFrameBuffer {
  public:
   /// Create a new buffer with enough storage for a frame with the given width
   /// and height in pixels.
-  static inline rtc::scoped_refptr<ArgbBuffer> Create(int width, int height) {
+  static inline rtc::RefCountedObject<ArgbBuffer>* Create(int width, int height) {
     return new rtc::RefCountedObject<ArgbBuffer>(width, height, width * 4);
   }
 
   /// Create a new buffer with enough storage for a frame with the given width
   /// and height in pixels, with explicit stride.
-  static inline rtc::scoped_refptr<ArgbBuffer> Create(int width,
+  static inline rtc::RefCountedObject<ArgbBuffer>* Create(int width,
                                                       int height,
                                                       int stride) {
     RTC_CHECK_GE(stride, width * 4);

@@ -51,8 +51,9 @@ VideoTrackSource::~VideoTrackSource() {
     // Track sources need to be manipulated from the worker thread
     rtc::Thread* const worker_thread =
         GlobalFactory::InstancePtr()->GetWorkerThread();
-    worker_thread->Invoke<void>(
-        RTC_FROM_HERE, [&]() { source_->RemoveSink(observer_.get()); });
+    /*worker_thread->Invoke<void>(
+        RTC_FROM_HERE, [&]() { source_->RemoveSink(observer_.get()); });*/
+    worker_thread->BlockingCall( [&](){ source_->RemoveSink(observer_.get());}  );
   }
 }
 
@@ -66,7 +67,7 @@ void VideoTrackSource::SetCallbackImpl(T callback) noexcept {
       // Track sources need to be manipulated from the worker thread
       rtc::Thread* const worker_thread =
           GlobalFactory::InstancePtr()->GetWorkerThread();
-      worker_thread->Invoke<void>(RTC_FROM_HERE, [&]() {
+      worker_thread->BlockingCall([&]() {
         rtc::VideoSinkWants sink_settings{};
         sink_settings.rotation_applied = true;
         source_->AddOrUpdateSink(observer_.get(), sink_settings);
@@ -85,8 +86,7 @@ void VideoTrackSource::SetCallbackImpl(T callback) noexcept {
         // Track sources need to be manipulated from the worker thread
         rtc::Thread* const worker_thread =
             GlobalFactory::InstancePtr()->GetWorkerThread();
-        worker_thread->Invoke<void>(
-            RTC_FROM_HERE, [&]() { source_->RemoveSink(observer_.get()); });
+        worker_thread->BlockingCall( [&]() { source_->RemoveSink(observer_.get()); });
         observer_.reset();
       }
     }

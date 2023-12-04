@@ -1045,7 +1045,7 @@ RefPtr<Transceiver> PeerConnection::FindWrapperFromRtpTransceiver(
     webrtc::RtpTransceiverInterface* rtp_tr) const {
   RTC_DCHECK(rtp_tr);
 
-  //webrtc::MutexLock lock(&transceivers_mutex_);
+  webrtc::MutexLock lock(&transceivers_mutex_);
 
   auto it = std::find_if(transceivers_.begin(), transceivers_.end(),
                          [&rtp_tr](const RefPtr<Transceiver>& tr) {

@@ -8,6 +8,8 @@
 #include "transceiver.h"
 #include "utils.h"
 
+#include "rtc_base/strings/string_builder.h"
+
 namespace Microsoft {
 namespace MixedReality {
 namespace WebRTC {
@@ -356,22 +358,34 @@ Transceiver::OptDirection Transceiver::OptFromSendRecv(bool send, bool recv) {
   }
 }
 
-std::vector<std::string> Transceiver::DecodeStreamIDs(
+std::vector<std::string_view> Transceiver::DecodeStreamIDs(
     const char* encoded_stream_ids) {
   if (IsStringNullOrEmpty(encoded_stream_ids)) {
     return {};
   }
-  std::vector<std::string> ids;
-  rtc::split(encoded_stream_ids, ';', &ids);
+  std::vector<std::string_view> ids;
+  ids = rtc::split(encoded_stream_ids, ';');
   return ids;
 }
+
+std::string StrJoin(const std::vector<std::string>& list, char delimiter) {
+  RTC_CHECK(!list.empty());
+  rtc::StringBuilder sb;
+  sb << list[0];
+  for (size_t i = 1; i < list.size(); i++) {
+    sb.AppendFormat("%c", delimiter);
+    sb << list[i];
+  }
+  return sb.Release();
+}
+
 
 std::string Transceiver::EncodeStreamIDs(
     const std::vector<std::string>& stream_ids) {
   if (stream_ids.empty()) {
     return {};
   }
-  return rtc::join(stream_ids, ';');
+  return StrJoin(stream_ids, ';');
 }
 
 std::string Transceiver::BuildEncodedStreamIDForPlanB(int mline_index) const {
@@ -390,20 +404,20 @@ std::string Transceiver::BuildEncodedStreamIDForPlanB(int mline_index) const {
     items.push_back(id);
   }
 
-  return rtc::join(items, ';');
+  return StrJoin(items, ';');
 }
 
 bool Transceiver::DecodedStreamIDForPlanB(
     const std::string& encoded_string,
     int& mline_index_out,
     std::string& name,
-    std::vector<std::string>& stream_ids_out) {
+    std::vector<std::string_view>& stream_ids_out) {
   if (encoded_string.empty()) {
     mline_index_out = -1;
     stream_ids_out.clear();
     return false;
   }
-  rtc::split(encoded_string, ';', &stream_ids_out);
+  stream_ids_out = rtc::split(encoded_string, ';');
   // Use encoded mline index as transceiver name
   name = std::move(stream_ids_out[0]);
   stream_ids_out.erase(stream_ids_out.begin());

@@ -231,7 +231,7 @@ class Transceiver : public TrackedObject {
 
   /// Decode an encode stream ID string into the individual stream IDs.
   /// This is conceptually equivalent to a split(str, ';').
-  MRS_NODISCARD static std::vector<std::string> DecodeStreamIDs(
+  MRS_NODISCARD static std::vector<std::string_view> DecodeStreamIDs(
       const char* encoded_stream_ids);
 
   /// Encode a list of stream IDs into a semi-colon separated string.
@@ -252,7 +252,7 @@ class Transceiver : public TrackedObject {
       const std::string& encoded_string,
       int& mline_index_out,
       std::string& name,
-      std::vector<std::string>& stream_ids_out);
+      std::vector<std::string_view>& stream_ids_out);
 
  protected:
   /// Construct a Plan B transceiver abstraction which tries to mimic a

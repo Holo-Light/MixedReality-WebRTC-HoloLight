@@ -425,8 +425,8 @@ mrsResult MRS_CALL mrsSdpForceCodecs(const char* message,
   std::string message_str(message);
   std::string audio_codec_name_str;
   std::string video_codec_name_str;
-  std::map<std::string, std::string> extra_audio_params;
-  std::map<std::string, std::string> extra_video_params;
+  std::map<std::string_view, std::string_view> extra_audio_params;
+  std::map<std::string_view, std::string_view> extra_video_params;
   if (audio_filter.codec_name) {
     audio_codec_name_str.assign(audio_filter.codec_name);
   }
@@ -434,10 +434,10 @@ mrsResult MRS_CALL mrsSdpForceCodecs(const char* message,
     video_codec_name_str.assign(video_filter.codec_name);
   }
   // Only assign extra parameters if codec name is not empty
-  if (!audio_codec_name_str.empty() && audio_filter.params) {
+  if (!audio_codec_name_str.empty() && audio_filter.params.size()!=0) {
     SdpParseCodecParameters(audio_filter.params, extra_audio_params);
   }
-  if (!video_codec_name_str.empty() && video_filter.params) {
+  if (!video_codec_name_str.empty() && video_filter.params.size()!=0) {
     SdpParseCodecParameters(video_filter.params, extra_video_params);
   }
   std::string out_message =

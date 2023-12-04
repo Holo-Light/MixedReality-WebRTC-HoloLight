@@ -20,8 +20,8 @@ bool SdpIsValidToken(absl::string_view token) noexcept;
 
 /// Parse a list of semicolon-separated pairs of "key=value" arguments into a
 /// map of (key, value) pairs.
-void SdpParseCodecParameters(const std::string& param_string,
-                             std::map<std::string, std::string>& params);
+void SdpParseCodecParameters(const std::string_view & param_string,
+                             std::map<std::string_view, std::string_view>& params);
 
 /// Force audio and video codecs when advertizing capabilities in an SDP offer.
 /// This is a workaround for the lack of access to codec selection. Instead of
@@ -39,9 +39,9 @@ void SdpParseCodecParameters(const std::string& param_string,
 std::string SdpForceCodecs(
     const std::string& message,
     const std::string& audio_codec_name,
-    const std::map<std::string, std::string>& extra_audio_codec_params,
+    const std::map<std::string_view, std::string_view>& extra_audio_codec_params,
     const std::string& video_codec_name,
-    const std::map<std::string, std::string>& extra_video_codec_params);
+    const std::map<std::string_view, std::string_view>& extra_video_codec_params);
 
 /// Decode a marshalled ICE server string.
 /// Syntax is:

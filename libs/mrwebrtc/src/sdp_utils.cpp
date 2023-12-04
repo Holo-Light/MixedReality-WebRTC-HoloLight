@@ -82,15 +82,16 @@ bool SdpIsValidToken(absl::string_view token) noexcept {
   return true;
 }
 
-void SdpParseCodecParameters(const std::string& param_string,
-                             std::map<std::string, std::string>& params) {
-  std::vector<std::string> key_values;
+void SdpParseCodecParameters(const std::string_view & param_string,
+                             std::map<std::string_view , std::string_view>& params) {
+  std::vector<std::string_view> key_values;
 
-  rtc::split(param_string, ';', &key_values);
+  key_values = rtc::split(param_string, ';');
 
   for (auto&& kv : key_values) {
-    std::vector<std::string> param(2);
-    if (rtc::split(kv, '=', &param) == 2) {
+    std::vector<std::string_view> param(2);
+    param = rtc::split(kv, '=');
+    if (param.size() == 2) {
       params[std::move(param[0])] = std::move(param[1]);
     }
   }
@@ -99,9 +100,9 @@ void SdpParseCodecParameters(const std::string& param_string,
 std::string SdpForceCodecs(
     const std::string& message,
     const std::string& audio_codec_name,
-    const std::map<std::string, std::string>& extra_audio_codec_params,
+    const std::map<std::string_view , std::string_view>& extra_audio_codec_params,
     const std::string& video_codec_name,
-    const std::map<std::string, std::string>& extra_video_codec_params) {
+    const std::map<std::string_view, std::string_view>& extra_video_codec_params) {
   // Deserialize the SDP message
   webrtc::JsepSessionDescription jdesc(webrtc::SdpType::kOffer);
   webrtc::SdpParseError error;

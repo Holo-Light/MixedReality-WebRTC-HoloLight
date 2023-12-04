@@ -885,7 +885,7 @@ struct SdpFilter {
   /// Semicolon-separated list of "key=value" pairs of codec parameters to pass
   /// to the codec. Arguments are passed as is without validation of their name
   /// nor value.
-  const char* params = nullptr;
+  const std::string_view params = nullptr;
 };
 
 /// Force audio and video codecs when advertizing capabilities in an SDP offer.
